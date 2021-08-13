@@ -15,18 +15,22 @@
 
 let mediaRecorder;
 let recordedBlobs;
+var recording = false;
 
+const audio = new Audio();
 const codecPreferences = document.querySelector('#codecPreferences');
 
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
 recordButton.addEventListener('click', () => {
-  if (recordButton.textContent === 'Start Recording') {
+  if (!recording) {
     startRecording();
+    recording = true;
   } else {
     stopRecording();
-    recordButton.textContent = 'Start Recording';
+    recording = false;
+    recordButton.textContent = 'Record';
     playButton.disabled = false;
     downloadButton.disabled = false;
     codecPreferences.disabled = false;
@@ -81,7 +85,6 @@ function getSupportedMimeTypes() {
 
 // Play audio file in the stream.
 function playAudio(audioFile) {
-  const audio = new Audio();
   audio.src = audioFile;
   audio.play();
 }
@@ -117,6 +120,8 @@ function startRecording() {
 
 function stopRecording() {
   mediaRecorder.stop();
+  audio.pause();
+  audio.currentTime = 0;
 }
 
 function handleSuccess(stream) {
@@ -146,17 +151,17 @@ async function init(constraints) {
   }
 }
 
-document.querySelector('button#start').addEventListener('click', async () => {
-  document.querySelector('button#start').disabled = true;
-  const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
-  const constraints = {
-    audio: {
-      echoCancellation: {exact: hasEchoCancellation}
-    },
-    video: {
-      width: 1280, height: 720
-    }
-  };
-  console.log('Using media constraints:', constraints);
-  await init(constraints);
-});
+//document.querySelector('button#start').addEventListener('click', async () => {
+// document.querySelector('button#start').disabled = true;
+const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+const constraints = {
+  audio: {
+    echoCancellation: {exact: hasEchoCancellation}
+  },
+  video: {
+    width: 1280, height: 720
+  }
+};
+console.log('Using media constraints:', constraints);
+init(constraints);
+//});

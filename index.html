@@ -1,69 +1,53 @@
 <!DOCTYPE html>
-<!--
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
--->
-<html>
+<html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="description" content="Life inside ayoba">
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta itemprop="description" content="Life inside ayoba">
     <meta itemprop="name" content="Life inside ayoba">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta id="theme-color" name="theme-color" content="#ffffff">
 
-    <base target="_blank">
-
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <title>Life inside ayoba</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
-
 </head>
 
 <body>
+    <div id="container" class="container">
 
-<div id="container" class="container">
+        <h1>Life inside ayoba</h1>
 
-    <h1>Life inside ayoba</h1>
+        <video id="gum" playsinline autoplay muted></video>
+        <video id="recorded" playsinline loop></video>
 
-    <video id="gum" playsinline autoplay muted></video>
-    <video id="recorded" playsinline loop></video>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-danger" id="record">
+                <span class="glyphicon glyphicon-record"></span>Record
+            </button>
+            <button type="button" class="btn btn-success" id="play" disabled>
+                <span class="glyphicon glyphicon-play"></span>Play
+            </button>
+            <button type="button" class="btn btn-primary" id="download" disabled>Download</button>
+        </div>
 
-    <div>
-        <button class="btn btn-outline-primary" id="start">Start camera</button>
-        <button class="btn btn-outline-primary" id="record" disabled>Start Recording</button>
-        <button class="btn btn-outline-primary" id="play" disabled>Play</button>
-        <button class="btn btn-outline-primary" id="download" disabled>Download</button>
+        <div hidden>
+            Recording format: <select id="codecPreferences" disabled></select>
+        </div>
+        <div hidden>
+            <h4>Media Stream Constraints options</h4>
+            <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
+        </div>
+
+        <div>
+            <span id="errorMsg"></span>
+        </div>
     </div>
 
-    <div hidden>
-        Recording format: <select id="codecPreferences" disabled></select>
-    </div>
-    <div hidden>
-        <h4>Media Stream Constraints options</h4>
-        <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
-    </div>
-
-    <div>
-        <span id="errorMsg"></span>
-    </div>
-</div>
-
-<!-- include adapter for srcObject shim -->
-<script src="js/adapter-latest.js"></script>
-<script src="js/main.js" async></script>
-<script src="lib/microapp.js"></script>
-<script src="lib/jquery-3.2.1.slim.min.js"></script>
-<script src="lib/popper.min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
-<script src="lib/jquery.min.js"></script>
-<script src="lib/jquery-ui.min.js"></script>
+    <!-- include adapter for srcObject shim -->
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/adapter-latest.js"></script>
+    <script src="js/main.js" async></script>
+    <script src="js/microapp.js"></script>
 </body>
 </html>
