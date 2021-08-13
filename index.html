@@ -21,12 +21,15 @@
 
     <title>Life inside ayoba</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
 
 </head>
 
 <body>
 
-<div id="container">
+<div id="container" class="container">
 
     <h1>Life inside ayoba</h1>
 
@@ -34,16 +37,16 @@
     <video id="recorded" playsinline loop></video>
 
     <div>
-        <button id="start">Start camera</button>
-        <button id="record" disabled>Start Recording</button>
-        <button id="play" disabled>Play</button>
-        <button id="download" disabled>Download</button>
+        <button class="btn btn-outline-primary" id="start">Start camera</button>
+        <button class="btn btn-outline-primary" id="record" disabled>Start Recording</button>
+        <button class="btn btn-outline-primary" id="play" disabled>Play</button>
+        <button class="btn btn-outline-primary" id="download" disabled>Download</button>
     </div>
 
-    <div>
+    <div hidden>
         Recording format: <select id="codecPreferences" disabled></select>
     </div>
-    <div>
+    <div hidden>
         <h4>Media Stream Constraints options</h4>
         <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
     </div>
@@ -56,6 +59,11 @@
 <!-- include adapter for srcObject shim -->
 <script src="js/adapter-latest.js"></script>
 <script src="js/main.js" async></script>
-
+<script src="lib/microapp.js"></script>
+<script src="lib/jquery-3.2.1.slim.min.js"></script>
+<script src="lib/popper.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
 </body>
 </html>
