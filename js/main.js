@@ -79,6 +79,13 @@ function getSupportedMimeTypes() {
   });
 }
 
+// Play audio file in the stream.
+function playAudio(audioFile) {
+  const audio = new Audio();
+  audio.src = audioFile;
+  audio.play();
+}
+
 function startRecording() {
   recordedBlobs = [];
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
@@ -102,6 +109,8 @@ function startRecording() {
     console.log('Recorded Blobs: ', recordedBlobs);
   };
   mediaRecorder.ondataavailable = handleDataAvailable;
+
+  playAudio('./media/Ayoba_EnglishNew Lyrics_Ver1.wav');
   mediaRecorder.start();
   console.log('MediaRecorder started', mediaRecorder);
 }
