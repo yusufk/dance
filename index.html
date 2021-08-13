@@ -19,16 +19,23 @@
         <h1>Life inside ayoba</h1>
 
         <video id="gum" playsinline autoplay muted></video>
-        <video id="recorded" playsinline loop></video>
+        <video id="recorded" playsinline loop hidden></video>
 
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-danger" id="record">
                 <span class="glyphicon glyphicon-record"></span>Record
             </button>
-            <button type="button" class="btn btn-success" id="play" disabled>
-                <span class="glyphicon glyphicon-play"></span>Play
-            </button>
             <button type="button" class="btn btn-primary" id="download" disabled>Download</button>
+        </div>
+
+        <div>
+            Song: <select class="form-select" id="songPreference">
+                <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
+                <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
+                <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
+                <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
+                <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
+            </select>
         </div>
 
         <div hidden>

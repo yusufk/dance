@@ -3,12 +3,5 @@ video {
   --width: 90vw;
   width: var(--width);
   height: calc(var(--width) * 0.5625);
-}
-
-video:last-of-type {
-  margin: 0 0 20px 0;
-}
-
-video#gumVideo {
   margin: 0 20px 20px 0;
 }

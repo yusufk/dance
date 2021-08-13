@@ -19,7 +19,9 @@ var recording = false;
 
 const audio = new Audio();
 const codecPreferences = document.querySelector('#codecPreferences');
+const musicPreference = document.querySelector('#songPreference');
 
+const gumVideo = document.querySelector('video#gum');
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
@@ -27,18 +29,23 @@ recordButton.addEventListener('click', () => {
   if (!recording) {
     startRecording();
     recording = true;
+    gumVideo.hidden = false;
+    recordedVideo.hidden = true;
   } else {
     stopRecording();
     recording = false;
     recordButton.textContent = 'Record';
-    playButton.disabled = false;
+    //playButton.disabled = false;
     downloadButton.disabled = false;
     codecPreferences.disabled = false;
   }
 });
 
-const playButton = document.querySelector('button#play');
-playButton.addEventListener('click', () => {
+// = document.querySelector('button#play');
+//playButton.addEventListener('click', () => {
+function playRecording() {
+  gumVideo.hidden = true;
+  recordedVideo.hidden = false;
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
   const superBuffer = new Blob(recordedBlobs, {type: mimeType});
   recordedVideo.src = null;
@@ -46,16 +53,17 @@ playButton.addEventListener('click', () => {
   recordedVideo.src = window.URL.createObjectURL(superBuffer);
   recordedVideo.controls = true;
   recordedVideo.play();
-});
+}
+//});
 
 const downloadButton = document.querySelector('button#download');
 downloadButton.addEventListener('click', () => {
-  const blob = new Blob(recordedBlobs, {type: 'video/webm'});
+  const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.style.display = 'none';
   a.href = url;
-  a.download = 'test.webm';
+  a.download = 'ayoba.mp4';
   document.body.appendChild(a);
   a.click();
   setTimeout(() => {
@@ -93,6 +101,7 @@ function startRecording() {
   recordedBlobs = [];
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const options = {mimeType};
+  const music = musicPreference.options[musicPreference.selectedIndex].value;
 
   try {
     mediaRecorder = new MediaRecorder(window.stream, options);
@@ -103,17 +112,18 @@ function startRecording() {
   }
 
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  recordButton.textContent = 'Stop Recording';
-  playButton.disabled = true;
+  recordButton.textContent = 'Stop';
+  //playButton.disabled = true;
   downloadButton.disabled = true;
   codecPreferences.disabled = true;
   mediaRecorder.onstop = (event) => {
     console.log('Recorder stopped: ', event);
     console.log('Recorded Blobs: ', recordedBlobs);
+    playRecording();
   };
   mediaRecorder.ondataavailable = handleDataAvailable;
 
-  playAudio('./media/Ayoba_EnglishNew Lyrics_Ver1.wav');
+  playAudio(music);
   mediaRecorder.start();
   console.log('MediaRecorder started', mediaRecorder);
 }
@@ -129,7 +139,6 @@ function handleSuccess(stream) {
   console.log('getUserMedia() got stream:', stream);
   window.stream = stream;
 
-  const gumVideo = document.querySelector('video#gum');
   gumVideo.srcObject = stream;
 
   getSupportedMimeTypes().forEach(mimeType => {
