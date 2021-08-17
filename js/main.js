@@ -20,11 +20,13 @@ var recording = false;
 const audio = new Audio();
 const codecPreferences = document.querySelector('#codecPreferences');
 const musicPreference = document.querySelector('#songPreference');
+const songName = document.querySelector('#song_name');
 
 const gumVideo = document.querySelector('video#gum');
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
+
 recordButton.addEventListener('click', () => {
   if (!recording) {
     startRecording();
@@ -164,8 +166,10 @@ async function init(constraints) {
   }
 }
 
-//document.querySelector('button#start').addEventListener('click', async () => {
-// document.querySelector('button#start').disabled = true;
+musicPreference.addEventListener('change', function (ev) {
+  console.log('Changed', musicPreference.options[musicPreference.selectedIndex].text);
+  songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
+});
 const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
 const constraints = {
   audio: {
