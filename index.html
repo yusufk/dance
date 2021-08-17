@@ -1,60 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Life inside ayoba">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta itemprop="description" content="Life inside ayoba">
-    <meta itemprop="name" content="Life inside ayoba">
-    <meta name="mobile-web-app-capable" content="yes">
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Life inside ayoba</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="container" class="container">
+    <div class="app__videos">
+        <!-- video starts -->
+        <div class="video">
+            <video id="gum" class="video__player" playsinline autoplay muted></video>
+            <video id="recorded" class="video__player" playsinline loop hidden></video>
+            <!-- sidebar -->
+            <div class="videoSidebar">
+                <div class="videoSidebar__button">
+                    <span class="material-icons"> favorite_border </span>
+                    <p>12</p>
+                </div>
 
-        <h1>Life inside ayoba</h1>
+                <div class="videoSidebar__button">
+                    <span class="material-icons"> message </span>
+                    <p>23</p>
+                </div>
 
-        <video id="gum" playsinline autoplay muted></video>
-        <video id="recorded" playsinline loop hidden></video>
+                <div class="videoSidebar__button">
+                    <span class="material-icons"> share </span>
+                    <p>75</p>
+                </div>
+            </div>
 
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-danger" id="record">
-                <span class="glyphicon glyphicon-record"></span>Record
-            </button>
-            <button type="button" class="btn btn-primary" id="download" disabled>Download</button>
+            <!-- footer -->
+            <div class="videoFooter">
+                <div class="videoFooter__buttons">
+                    <button type="button" class="btn btn-danger" id="record">
+                        <span class="glyphicon glyphicon-record"></span>Record
+                    </button>
+                    <button type="button" class="btn btn-primary" id="download" disabled>Download</button>
+                </div>
+                <div class="videoFooter__text">
+                    <h3>ayoba</h3>
+                    <p class="videoFooter__description">Life inside ayoba</p>
+
+                    <div class="videoFooter__ticker">
+                        <span class="material-icons videoFooter__icon"> music_note </span>
+                        <marquee id="song_name">Song name</marquee>
+                    </div>
+                </div>
+                <img src="https://static.thenounproject.com/png/934821-200.png" alt="" class="videoFooter__record" />
+
+                <div>
+                    Song: <select class="form-select" id="songPreference">
+                        <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
+                        <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
+                        <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
+                        <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
+                        <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
+                    </select>
+                </div>
+            </div>
+            <div hidden>
+                Recording format: <select id="codecPreferences" disabled></select>
+            </div>
+            <div hidden>
+                <h4>Media Stream Constraints options</h4>
+                <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
+            </div>
+
+            <div>
+                <span id="errorMsg"></span>
+            </div>
         </div>
+        <!-- video ends -->
+        <script>
+            const videos = document.querySelectorAll('video');
 
-        <div>
-            Song: <select class="form-select" id="songPreference">
-                <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
-                <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
-                <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
-                <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
-                <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
-            </select>
-        </div>
-
-        <div hidden>
-            Recording format: <select id="codecPreferences" disabled></select>
-        </div>
-        <div hidden>
-            <h4>Media Stream Constraints options</h4>
-            <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
-        </div>
-
-        <div>
-            <span id="errorMsg"></span>
-        </div>
-    </div>
-
-    <!-- include adapter for srcObject shim -->
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/adapter-latest.js"></script>
-    <script src="js/main.js" async></script>
-    <script src="js/microapp.js"></script>
+            for (const video of videos) {
+                video.addEventListener('click', function () {
+                    console.log('clicked');
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                });
+            }
+        </script>
+        <script src="js/main.js" async></script>
+        <script src="js/adapter-latest.js"></script>
 </body>
+
 </html>
