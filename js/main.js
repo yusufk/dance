@@ -91,20 +91,24 @@ function getSupportedMimeTypes() {
   });
 }
 
-// Play audio file in the stream.
-function playAudio(audioFile) {
-  audio.src = audioFile;
-  audio.play();
-}
-
 function startRecording() {
   recordedBlobs = [];
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const options = {mimeType};
   const music = musicPreference.options[musicPreference.selectedIndex].value;
-
+  audio.crossOrigin = "anonymous";
+  audio.src = music;
+  //window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioContext = new AudioContext(window.AudioContext = window.AudioContext || window.webkitAudioContext);
+  const audioSource = audioContext.createMediaElementSource(audio);
+  const audioDestination = audioContext.createMediaStreamDestination();
+  audioSource.connect(audioDestination);
+  audioSource.connect(audioContext.destination);
+  let combined = new MediaStream();
+  combined.addTrack(audioDestination.stream.getAudioTracks()[0]);
+  combined.addTrack(window.stream.getVideoTracks()[0]);
   try {
-    mediaRecorder = new MediaRecorder(window.stream, options);
+    mediaRecorder = new MediaRecorder(combined, options);
   } catch (e) {
     console.error('Exception while creating MediaRecorder:', e);
     errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
@@ -123,7 +127,7 @@ function startRecording() {
   };
   mediaRecorder.ondataavailable = handleDataAvailable;
 
-  playAudio(music);
+  audio.play();
   mediaRecorder.start();
   console.log('MediaRecorder started', mediaRecorder);
 }
