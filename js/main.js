@@ -15,15 +15,14 @@
 
 var mediaRecorder;
 var recordedBlobs;
-var recording = false;
-var ready = false;
+var state = 'intro';
 var audioContext;
 var audioStreamDestination;
 var speakerDestination;
 var musicPreference = document.querySelector('#songPreference');
 var music = musicPreference.options[0].value;
 var audio;
-var  audioSource;
+var audioSource;
 const codecPreferences = document.querySelector('#codecPreferences');
 const songName = document.querySelector('#song_name');
 const gumVideo = document.querySelector('video#gum');
@@ -44,29 +43,31 @@ const constraints = {
 };
 
 recordButton.addEventListener('click', () => {
-  if (ready) {
-    if (!recording) {
-      recordedVideo.pause();
-      recordedVideo.hidden = true;
-      gumVideo.hidden = false;
-      recording = true;
-      videoSidebar.hidden = false;
-      footerStyle.bottom = '20%';
-      startRecording();
-    } else {
-      stopRecording();
-      recording = false;
-      recordIcon.textContent = 'circle';
-      //playButton.disabled = false;
-      downloadButton.disabled = false;
-      downloadButton.hidden = false;
-    }
+  if (state == 'ready') { 
+    recordedVideo.pause();
+    recordedVideo.hidden = true;
+    gumVideo.hidden = false;
+    videoSidebar.hidden = false;
+    recordIcon.textContent = 'stop_circle';
+    downloadButton.disabled = true;
+    downloadButton.hidden = true;
+    codecPreferences.disabled = true;
+    footerStyle.bottom = '20%';
+    state = 'recording';
+    startRecording();
   }
-  else {init(constraints);};
+  else if (state == 'recording'){
+    stopRecording();
+    state = 'ready';
+    recordIcon.textContent = 'circle';
+    downloadButton.disabled = false;
+    downloadButton.hidden = false;
+  }
+  else if (state == 'intro'){
+    recordIcon.style.color = 'red';
+    init(constraints);};
 });
 
-// = document.querySelector('button#play');
-//playButton.addEventListener('click', () => {
 function playRecording() {
   videoSidebar.hidden = false;
   gumVideo.hidden = true;
@@ -80,7 +81,6 @@ function playRecording() {
   recordedVideo.controls = true;
   recordedVideo.play();
 }
-//});
 
 const downloadButton = document.querySelector('button#download');
 downloadButton.addEventListener('click', () => {
@@ -108,7 +108,8 @@ musicPreference.addEventListener('change', function (ev) {
   console.log('Changed', musicPreference.options[musicPreference.selectedIndex].text);
   songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
   music = musicPreference.options[musicPreference.selectedIndex].value;
-  audio.src = music;
+  if (audio !== undefined){audio.src = music;};
+  musicPreference.hidden = true;
 });
 
 function handleDataAvailable(event) {
@@ -147,20 +148,14 @@ function startRecording() {
     errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
     return;
   }
-
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  recordIcon.textContent = 'stop_circle';
-  //playButton.disabled = true;
-  downloadButton.disabled = true;
-  downloadButton.hidden = true;
-  codecPreferences.disabled = true;
+  
   mediaRecorder.onstop = (event) => {
     console.log('Recorder stopped: ', event);
     console.log('Recorded Blobs: ', recordedBlobs);
     playRecording();
   };
   mediaRecorder.ondataavailable = handleDataAvailable;
-
   audio.play();
   mediaRecorder.start();
   console.log('MediaRecorder started', mediaRecorder);
@@ -197,7 +192,7 @@ function handleSuccess(stream) {
     codecPreferences.appendChild(option);
   });
   codecPreferences.disabled = false;
-  ready = true;
+  state = 'ready';
   recordIcon.textContent = 'circle';
   recordedVideo.hidden = true;
   gumVideo.hidden = false;

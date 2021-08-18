@@ -101,6 +101,21 @@
     position: absolute;
     right: 50%;
   }
+
+  .record__button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    color: white;
+    outline:none;
+  }
+
+  .record__button .material-icons {
+    font-size: 50px;
+    cursor: pointer;
+  }
   
   .videoFooter__text {
     flex: 1;
