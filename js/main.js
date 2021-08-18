@@ -13,30 +13,40 @@
 
 /* globals MediaRecorder */
 
-let mediaRecorder;
-let recordedBlobs;
+var mediaRecorder;
+var recordedBlobs;
 var recording = false;
 
-const audio = new Audio();
-const codecPreferences = document.querySelector('#codecPreferences');
+const audioContext = new AudioContext(window.AudioContext = window.AudioContext || window.webkitAudioContext);
+const audioStreamDestination = audioContext.createMediaStreamDestination();
+const speakerDestination = audioContext.destination;
 const musicPreference = document.querySelector('#songPreference');
+var music = musicPreference.options[0].value;
+const audio = new Audio();
+audio.crossOrigin = "anonymous";
+audio.src = music;
+var  audioSource = audioContext.createMediaElementSource(audio);
+const codecPreferences = document.querySelector('#codecPreferences');
 const songName = document.querySelector('#song_name');
-
 const gumVideo = document.querySelector('video#gum');
 const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
+const recordIcon = document.querySelector('#recordIcon');
+const videoSidebar = document.querySelector('#videoSidebar')
 
 recordButton.addEventListener('click', () => {
   if (!recording) {
+    recordedVideo.pause();
     startRecording();
     recording = true;
     gumVideo.hidden = false;
     recordedVideo.hidden = true;
+    videoSidebar.hidden = false;
   } else {
     stopRecording();
     recording = false;
-    recordButton.textContent = 'Record';
+    recordIcon.textContent = 'camera';
     //playButton.disabled = false;
     downloadButton.disabled = false;
     codecPreferences.disabled = false;
@@ -46,6 +56,7 @@ recordButton.addEventListener('click', () => {
 // = document.querySelector('button#play');
 //playButton.addEventListener('click', () => {
 function playRecording() {
+  videoSidebar.hidden = false;
   gumVideo.hidden = true;
   recordedVideo.hidden = false;
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
@@ -74,6 +85,12 @@ downloadButton.addEventListener('click', () => {
   }, 100);
 });
 
+const musicPreferenceButton = document.querySelector('#videoFooter__record');
+musicPreferenceButton.addEventListener('click', () => {
+  if (musicPreference.hidden) {musicPreference.hidden = false;}
+  else {musicPreference.hidden = true;};
+});
+
 function handleDataAvailable(event) {
   console.log('handleDataAvailable', event);
   if (event.data && event.data.size > 0) {
@@ -97,17 +114,11 @@ function startRecording() {
   recordedBlobs = [];
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const options = {mimeType};
-  const music = musicPreference.options[musicPreference.selectedIndex].value;
-  audio.crossOrigin = "anonymous";
-  audio.src = music;
-  //window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioContext = new AudioContext(window.AudioContext = window.AudioContext || window.webkitAudioContext);
-  const audioSource = audioContext.createMediaElementSource(audio);
-  const audioDestination = audioContext.createMediaStreamDestination();
-  audioSource.connect(audioDestination);
-  audioSource.connect(audioContext.destination);
+  audio.src = musicPreference.options[musicPreference.selectedIndex].value;
+  audioSource.connect(audioStreamDestination);
+  audioSource.connect(speakerDestination);
   let combined = new MediaStream();
-  combined.addTrack(audioDestination.stream.getAudioTracks()[0]);
+  combined.addTrack(audioStreamDestination.stream.getAudioTracks()[0]);
   combined.addTrack(window.stream.getVideoTracks()[0]);
   try {
     mediaRecorder = new MediaRecorder(combined, options);
@@ -118,7 +129,7 @@ function startRecording() {
   }
 
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  recordButton.textContent = 'Stop';
+  recordIcon.textContent = 'stop_circle';
   //playButton.disabled = true;
   downloadButton.disabled = true;
   codecPreferences.disabled = true;
@@ -169,7 +180,10 @@ async function init(constraints) {
 musicPreference.addEventListener('change', function (ev) {
   console.log('Changed', musicPreference.options[musicPreference.selectedIndex].text);
   songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
+  music = musicPreference.options[musicPreference.selectedIndex].value;
+  audio.src = music;
 });
+
 const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
 const constraints = {
   audio: {

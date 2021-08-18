@@ -17,7 +17,7 @@
             <video id="gum" class="video__player" playsinline autoplay muted></video>
             <video id="recorded" class="video__player" playsinline loop hidden></video>
             <!-- sidebar -->
-            <div class="videoSidebar">
+            <div class="videoSidebar" hidden id="videoSidebar">
                 <div class="videoSidebar__button">
                     <span class="material-icons"> favorite_border </span>
                     <p>12</p>
@@ -37,19 +37,12 @@
             <!-- footer -->
             <div class="videoFooter">
                 <div class="videoFooter__buttons">
-                    <button type="button" class="btn btn-danger" id="record">
-                        <span class="glyphicon glyphicon-record"></span>Record
+                    <button type="button" class="record__button" id="record">
+                        <span class="material-icons" id="recordIcon"> camera </span>
                     </button>
-                    <button type="button" class="btn btn-primary" id="download" disabled>Download</button>
-                    <div>
-                        Song: <select class="form-select" id="songPreference">
-                            <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
-                            <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
-                            <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
-                            <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
-                            <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
-                        </select>
-                    </div>
+                    <button type="button" class="download__button" id="download" disabled hidden>
+                        <span class="material-icons"> download </span>
+                    </button>
                 </div>
                 <div class="videoFooter__text">
                     <h3>ayoba</h3>
@@ -60,7 +53,16 @@
                         <marquee id="song_name">Ayoba English</marquee>
                     </div>
                 </div>
-                <img src="https://static.thenounproject.com/png/934821-200.png" alt="" class="videoFooter__record" />
+                <div class="videoFooter__selector">
+                    <select class="form-select" id="songPreference" hidden>
+                        <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
+                        <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
+                        <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
+                        <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
+                        <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
+                    </select>
+                </div>
+                <img src="https://static.thenounproject.com/png/934821-200.png" alt="" class="videoFooter__record" id="videoFooter__record" />
             </div>
             <div hidden>
                 Recording format: <select id="codecPreferences" disabled></select>

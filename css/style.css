@@ -91,8 +91,15 @@
     right: 20px;
   }
 
+  .videoFooter__selector {
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
+  }
+
   .videoFooter__buttons {
     position: absolute;
+    right: 50%;
   }
   
   .videoFooter__text {
