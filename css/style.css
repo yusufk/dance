@@ -51,7 +51,7 @@
   
   .videoSidebar {
     position: absolute;
-    top: 48%;
+    top: 30%;
     right: 10px;
   }
   
@@ -67,7 +67,7 @@
   
   .videoFooter {
     position: relative;
-    bottom: 20%;
+    bottom: 30%;
     margin-left: 20px;
     color: white;
     display: flex;

@@ -16,42 +16,53 @@
 var mediaRecorder;
 var recordedBlobs;
 var recording = false;
-
-const audioContext = new AudioContext(window.AudioContext = window.AudioContext || window.webkitAudioContext);
-const audioStreamDestination = audioContext.createMediaStreamDestination();
-const speakerDestination = audioContext.destination;
-const musicPreference = document.querySelector('#songPreference');
+var ready = false;
+var audioContext;
+var audioStreamDestination;
+var speakerDestination;
+var musicPreference = document.querySelector('#songPreference');
 var music = musicPreference.options[0].value;
-const audio = new Audio();
-audio.crossOrigin = "anonymous";
-audio.src = music;
-var  audioSource = audioContext.createMediaElementSource(audio);
+var audio;
+var  audioSource;
 const codecPreferences = document.querySelector('#codecPreferences');
 const songName = document.querySelector('#song_name');
 const gumVideo = document.querySelector('video#gum');
-const errorMsgElement = document.querySelector('span#errorMsg');
+const errorMsgElement = songName; //document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
 const recordIcon = document.querySelector('#recordIcon');
-const videoSidebar = document.querySelector('#videoSidebar')
+const videoSidebar = document.querySelector('#videoSidebar');
+const footerStyle = document.getElementById("videoFooter").style;
+const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+const constraints = {
+  audio: {
+    echoCancellation: {exact: hasEchoCancellation}
+  },
+  video: {
+    width: 1280, height: 720
+  }
+};
 
 recordButton.addEventListener('click', () => {
-  if (!recording) {
-    recordedVideo.pause();
-    startRecording();
-    recording = true;
-    gumVideo.hidden = false;
-    recordedVideo.hidden = true;
-    videoSidebar.hidden = false;
-  } else {
-    stopRecording();
-    recording = false;
-    recordIcon.textContent = 'camera';
-    //playButton.disabled = false;
-    downloadButton.disabled = false;
-    downloadButton.hidden = false;
-    codecPreferences.disabled = false;
+  if (ready) {
+    if (!recording) {
+      recordedVideo.pause();
+      recordedVideo.hidden = true;
+      gumVideo.hidden = false;
+      recording = true;
+      videoSidebar.hidden = false;
+      footerStyle.bottom = '20%';
+      startRecording();
+    } else {
+      stopRecording();
+      recording = false;
+      recordIcon.textContent = 'circle';
+      //playButton.disabled = false;
+      downloadButton.disabled = false;
+      downloadButton.hidden = false;
+    }
   }
+  else {init(constraints);};
 });
 
 // = document.querySelector('button#play');
@@ -60,6 +71,7 @@ function playRecording() {
   videoSidebar.hidden = false;
   gumVideo.hidden = true;
   recordedVideo.hidden = false;
+  footerStyle.bottom = '30%';
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
   const superBuffer = new Blob(recordedBlobs, {type: mimeType});
   recordedVideo.src = null;
@@ -90,6 +102,13 @@ const musicPreferenceButton = document.querySelector('#videoFooter__record');
 musicPreferenceButton.addEventListener('click', () => {
   if (musicPreference.hidden) {musicPreference.hidden = false;}
   else {musicPreference.hidden = true;};
+});
+
+musicPreference.addEventListener('change', function (ev) {
+  console.log('Changed', musicPreference.options[musicPreference.selectedIndex].text);
+  songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
+  music = musicPreference.options[musicPreference.selectedIndex].value;
+  audio.src = music;
 });
 
 function handleDataAvailable(event) {
@@ -153,7 +172,18 @@ function stopRecording() {
   audio.currentTime = 0;
 }
 
+function initContext() {
+  audioContext = new AudioContext(window.AudioContext = window.AudioContext || window.webkitAudioContext);
+  audioStreamDestination = audioContext.createMediaStreamDestination();
+  speakerDestination = audioContext.destination;
+  audio = new Audio();
+  audio.crossOrigin = "anonymous";
+  audio.src = music;
+  audioSource = audioContext.createMediaElementSource(audio);
+}
+
 function handleSuccess(stream) {
+  initContext();
   recordButton.disabled = false;
   console.log('getUserMedia() got stream:', stream);
   window.stream = stream;
@@ -167,6 +197,11 @@ function handleSuccess(stream) {
     codecPreferences.appendChild(option);
   });
   codecPreferences.disabled = false;
+  ready = true;
+  recordIcon.textContent = 'circle';
+  recordedVideo.hidden = true;
+  gumVideo.hidden = false;
+  footerStyle.bottom = '20%';
 }
 
 async function init(constraints) {
@@ -178,23 +213,3 @@ async function init(constraints) {
     errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
   }
 }
-
-musicPreference.addEventListener('change', function (ev) {
-  console.log('Changed', musicPreference.options[musicPreference.selectedIndex].text);
-  songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
-  music = musicPreference.options[musicPreference.selectedIndex].value;
-  audio.src = music;
-});
-
-const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
-const constraints = {
-  audio: {
-    echoCancellation: {exact: hasEchoCancellation}
-  },
-  video: {
-    width: 1280, height: 720
-  }
-};
-console.log('Using media constraints:', constraints);
-init(constraints);
-//});
