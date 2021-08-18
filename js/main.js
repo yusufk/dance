@@ -49,6 +49,7 @@ recordButton.addEventListener('click', () => {
     recordIcon.textContent = 'camera';
     //playButton.disabled = false;
     downloadButton.disabled = false;
+    downloadButton.hidden = false;
     codecPreferences.disabled = false;
   }
 });
@@ -132,6 +133,7 @@ function startRecording() {
   recordIcon.textContent = 'stop_circle';
   //playButton.disabled = true;
   downloadButton.disabled = true;
+  downloadButton.hidden = true;
   codecPreferences.disabled = true;
   mediaRecorder.onstop = (event) => {
     console.log('Recorder stopped: ', event);
