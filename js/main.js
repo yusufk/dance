@@ -52,7 +52,6 @@ recordButton.addEventListener('click', () => {
     downloadButton.disabled = true;
     downloadButton.hidden = true;
     codecPreferences.disabled = true;
-    footerStyle.bottom = '20%';
     state = 'recording';
     startRecording();
   }
@@ -72,7 +71,6 @@ function playRecording() {
   videoSidebar.hidden = false;
   gumVideo.hidden = true;
   recordedVideo.hidden = false;
-  footerStyle.bottom = '30%';
   const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
   const superBuffer = new Blob(recordedBlobs, {type: mimeType});
   recordedVideo.src = null;
@@ -196,7 +194,6 @@ function handleSuccess(stream) {
   recordIcon.textContent = 'circle';
   recordedVideo.hidden = true;
   gumVideo.hidden = false;
-  footerStyle.bottom = '20%';
 }
 
 async function init(constraints) {

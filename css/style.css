@@ -15,6 +15,11 @@
     place-items: center;
   }
   
+  video::-webkit-media-controls-panel {
+    display: flex !important;
+    opacity: 1 !important;
+  }
+
   .app__videos {
     position: relative;
     height: 750px;
@@ -97,26 +102,40 @@
     bottom: 50px;
   }
 
-  .videoFooter__buttons {
-    position: absolute;
-    right: 50%;
-  }
-
   .record__button {
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
-    cursor:pointer;
     overflow: hidden;
     color: white;
     outline:none;
   }
-
   .record__button .material-icons {
     font-size: 50px;
     cursor: pointer;
   }
-  
+
+  .download__button
+  {
+    height: 50px;
+    position: absolute;
+    right: 15px;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    color: white;
+    outline:none;
+  }
+
+  .download__button .material-icons {
+    font-size: 50px;
+    cursor: pointer;
+  }
+
   .videoFooter__text {
     flex: 1;
   }

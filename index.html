@@ -14,7 +14,7 @@
     <div class="app__videos">
         <!-- video starts -->
         <div class="video">
-            <video id="gum" class="video__player" playsinline autoplay muted hidden></video>
+            <video id="gum" class="video__player" playsinline autoplay muted hidden controls></video>
             <video id="recorded" class="video__player" src="media/ayoba.mp4" playsinline loop controls></video>
             <!-- sidebar -->
             <div class="videoSidebar" hidden id="videoSidebar">
@@ -36,14 +36,12 @@
 
             <!-- footer -->
             <div class="videoFooter" id="videoFooter">
-                <div class="videoFooter__buttons">
-                    <button type="button" class="record__button" id="record">
-                        <span class="material-icons" id="recordIcon"> camera </span>
-                    </button>
-                    <button type="button" class="download__button" id="download" disabled hidden>
-                        <span class="material-icons"> download </span>
-                    </button>
-                </div>
+                <button type="button" class="record__button" id="record">
+                    <span class="material-icons" id="recordIcon"> camera </span>
+                </button>
+                <button type="button" class="download__button" id="download" disabled hidden>
+                    <span class="material-icons"> download </span>
+                </button>
                 <div class="videoFooter__text">
                     <h3>ayoba</h3>
                     <p class="videoFooter__description">Life inside ayoba...</p>
