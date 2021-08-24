@@ -36,12 +36,12 @@ const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
 const videoDescription = document.querySelector('#videoFooter__description');
 const constraints = {
   audio: {
-    echoCancellation: {exact: hasEchoCancellation}
+  
   },
   video: {
     aspectRatio: 9/16,
-    width: 412,
-    height: 732
+    height: 768,
+    facingMode: 'user'
   }
 };
 
