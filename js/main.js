@@ -35,11 +35,10 @@ const footerStyle = document.getElementById("videoFooter").style;
 const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
 const videoDescription = document.querySelector('#videoFooter__description');
 const constraints = {
-  audio: {
-    echoCancellation: {exact: hasEchoCancellation}
-  },
   video: {
-    width: 1280, height: 720
+    width: screen.width,
+    height: screen.height,
+    facingMode: 'user'
   }
 };
 
