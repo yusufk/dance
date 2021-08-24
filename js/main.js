@@ -130,7 +130,6 @@ function getSupportedMimeTypes() {
     'video/webm;codecs=vp9,opus',
     'video/webm;codecs=vp8,opus',
     'video/webm;codecs=h264,opus',
-    'video/mp4;codecs=h264,aac',
   ];
   return possibleTypes.filter(mimeType => {
     return MediaRecorder.isTypeSupported(mimeType);
@@ -139,8 +138,8 @@ function getSupportedMimeTypes() {
 
 function startRecording() {
   recordedBlobs = [];
-  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
-  //const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
+  //const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
+  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const options = {mimeType};
   audio.src = musicPreference.options[musicPreference.selectedIndex].value;
   audioSource.connect(audioStreamDestination);
