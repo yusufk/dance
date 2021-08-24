@@ -26,13 +26,14 @@ var audioSource;
 const codecPreferences = document.querySelector('#codecPreferences');
 const songName = document.querySelector('#song_name');
 const gumVideo = document.querySelector('video#gum');
-const errorMsgElement = songName; //document.querySelector('span#errorMsg');
+const errorMsgElement = songName; 
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
 const recordIcon = document.querySelector('#recordIcon');
 const videoSidebar = document.querySelector('#videoSidebar');
 const footerStyle = document.getElementById("videoFooter").style;
 const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+const videoDescription = document.querySelector('#videoFooter__description');
 const constraints = {
   audio: {
     echoCancellation: {exact: hasEchoCancellation}
@@ -43,28 +44,33 @@ const constraints = {
 };
 
 recordButton.addEventListener('click', () => {
-  if (state == 'ready') { 
+  if (state == 'intro'){
+    recordIcon.style.color = 'red';
+    init(constraints);
+    songName.textContent = `Select a track on the right, then click above to start recording...`;
+  }
+  else if (state == 'ready') { 
     recordedVideo.pause();
     recordedVideo.hidden = true;
     gumVideo.hidden = false;
-    videoSidebar.hidden = false;
     recordIcon.textContent = 'stop_circle';
-    downloadButton.disabled = true;
-    downloadButton.hidden = true;
+    songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
     codecPreferences.disabled = true;
     state = 'recording';
     startRecording();
   }
   else if (state == 'recording'){
     stopRecording();
-    state = 'ready';
-    recordIcon.textContent = 'circle';
-    downloadButton.disabled = false;
-    downloadButton.hidden = false;
+    state = 'done';
+    recordIcon.textContent = 'download';
+    recordIcon.style.color = 'white';
+    songName.textContent = "Click the download button to save your video...";
   }
-  else if (state == 'intro'){
-    recordIcon.style.color = 'red';
-    init(constraints);};
+  else if (state == 'done'){
+    videoSidebar.hidden = false;
+    downloadRecording();
+    songName.textContent = "Upload your video on...";
+  };
 });
 
 function playRecording() {
@@ -80,26 +86,20 @@ function playRecording() {
   recordedVideo.play();
 }
 
-const downloadButton = document.querySelector('button#download');
-downloadButton.addEventListener('click', () => {
-  const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.style.display = 'none';
-  a.href = url;
-  a.download = 'ayoba.mp4';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }, 100);
-});
-
 const musicPreferenceButton = document.querySelector('#videoFooter__record');
 musicPreferenceButton.addEventListener('click', () => {
   if (musicPreference.hidden) {musicPreference.hidden = false;}
   else {musicPreference.hidden = true;};
+});
+
+const shareButton = document.querySelector('#share__button');
+shareButton.addEventListener('click', aysnc () => {
+  try {
+    await shareRecording();
+    console.log("Shared succesfully");
+  } catch(err) {
+    console.log('Error: ' + err);
+  }
 });
 
 musicPreference.addEventListener('change', function (ev) {
@@ -163,6 +163,27 @@ function stopRecording() {
   mediaRecorder.stop();
   audio.pause();
   audio.currentTime = 0;
+}
+
+function downloadRecording() {
+    const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'ayoba.mp4';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 100);
+  };
+
+function shareRecording() {
+  const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
+  const file = new File([blob], 'ayoba.mp4', { type: 'video/mp4' });
+  window.navigator.share({files: [file] });
 }
 
 function initContext() {

@@ -18,63 +18,60 @@
             <video id="recorded" class="video__player" src="media/ayoba.mp4" playsinline loop controls></video>
             <!-- sidebar -->
             <div class="videoSidebar" hidden id="videoSidebar">
-                <div class="videoSidebar__button">
+                <div class="videoSidebar__button" id="favorite__button" hidden>
                     <span class="material-icons"> favorite_border </span>
                     <p>12</p>
                 </div>
 
-                <div class="videoSidebar__button">
+                <div class="videoSidebar__button" id="message__button">
                     <span class="material-icons"> message </span>
                     <p>23</p>
                 </div>
 
-                <div class="videoSidebar__button">
+                <div class="videoSidebar__button" id="share__button">
                     <span class="material-icons"> share </span>
                     <p>75</p>
                 </div>
             </div>
-
-            <!-- footer -->
-            <div class="videoFooter" id="videoFooter">
-                <button type="button" class="record__button" id="record">
-                    <span class="material-icons" id="recordIcon"> camera </span>
-                </button>
-                <button type="button" class="download__button" id="download" disabled hidden>
-                    <span class="material-icons"> download </span>
-                </button>
-                <div class="videoFooter__text">
-                    <h3>ayoba</h3>
-                    <p class="videoFooter__description">Life inside ayoba...</p>
-
-                    <div class="videoFooter__ticker">
-                        <span class="material-icons videoFooter__icon"> music_note </span>
-                        <marquee id="song_name">Ayoba English</marquee>
-                    </div>
-                </div>
-                <div class="videoFooter__selector">
-                    <select class="form-select" id="songPreference" hidden>
-                        <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
-                        <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
-                        <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
-                        <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
-                        <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
-                    </select>
-                </div>
-                <img src="https://static.thenounproject.com/png/934821-200.png" alt="" class="videoFooter__record" id="videoFooter__record" />
-            </div>
-            <div hidden>
-                Recording format: <select id="codecPreferences" disabled></select>
-            </div>
-            <div hidden>
-                <h4>Media Stream Constraints options</h4>
-                <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
-            </div>
-
-            <div>
-                <span id="errorMsg"></span>
-            </div>
         </div>
         <!-- video ends -->
+        <!-- footer -->
+        <div class="videoFooter" id="videoFooter">
+            <button type="button" class="record__button" id="record" title="Open camera">
+                <span class="material-icons" id="recordIcon"> camera </span>
+            </button>
+            <div class="videoFooter__text">
+                <h3>ayoba</h3>
+                <p class="videoFooter__description" id="videoFooter__description" >Life inside ayoba...</p>
+
+                <div class="videoFooter__ticker">
+                    <span class="material-icons videoFooter__icon"> music_note </span>
+                    <marquee id="song_name">Click above to start your camera...</marquee>
+                </div>
+            </div>
+            <div class="videoFooter__selector">
+                <select class="form-select" id="songPreference" hidden>
+                    <option selected value="./media/Ayoba_EnglishNew Lyrics_Ver1.wav">ayoba English</option>
+                    <option value="media/Ayoba_EnglishNew Lyrics_Ver2.wav">ayoba English 2</option>
+                    <option value="media/Ayoba_French_Ver1.wav">ayoba French</option>
+                    <option value="media/Ayoba_French_Ver2.wav">ayoba French 2</option>
+                    <option value="media/Ayoba_Instrumental.wav">ayoba Instrumental</option>
+                </select>
+            </div>
+            <img src="https://static.thenounproject.com/png/934821-200.png" alt="" class="videoFooter__record"
+                id="videoFooter__record" />
+        </div>
+        <div hidden>
+            Recording format: <select id="codecPreferences" disabled></select>
+        </div>
+        <div hidden>
+            <h4>Media Stream Constraints options</h4>
+            <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
+        </div>
+
+        <div>
+            <span id="errorMsg"></span>
+        </div>
         <script>
             const videos = document.querySelectorAll('video');
 
