@@ -186,7 +186,7 @@ function downloadRecording() {
 function shareRecording() {
   const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
   const file = new File([blob], 'ayoba.mp4', { type: 'video/mp4' });
-  window.navigator.share({files: [file] });
+  window.navigator.share({title: 'ayoba life', text: 'Checkout my ayoba video!',files: [file] });
 }
 
 function initContext() {
