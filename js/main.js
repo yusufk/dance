@@ -36,8 +36,8 @@ const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
 const videoDescription = document.querySelector('#videoFooter__description');
 const constraints = {
   video: {
-    width: screen.width,
-    height: screen.height,
+    //width: screen.width,
+    //height: screen.height,
     facingMode: 'user'
   }
 };
