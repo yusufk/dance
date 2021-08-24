@@ -48,6 +48,7 @@ recordButton.addEventListener('click', () => {
     recordIcon.style.color = 'red';
     init(constraints);
     songName.textContent = `Select a track on the right, then click above to start recording...`;
+    videoDescription.textContent = "Ready..."
   }
   else if (state == 'ready') { 
     recordedVideo.pause();
@@ -55,6 +56,7 @@ recordButton.addEventListener('click', () => {
     gumVideo.hidden = false;
     recordIcon.textContent = 'stop_circle';
     songName.textContent = musicPreference.options[musicPreference.selectedIndex].text;
+    videoDescription.textContent = "Recording..."
     codecPreferences.disabled = true;
     state = 'recording';
     startRecording();
@@ -65,11 +67,12 @@ recordButton.addEventListener('click', () => {
     recordIcon.textContent = 'download';
     recordIcon.style.color = 'white';
     songName.textContent = "Click the download button to save your video...";
+    videoDescription.textContent = "Stopped..."
   }
   else if (state == 'done'){
     videoSidebar.hidden = false;
     downloadRecording();
-    songName.textContent = "Upload your video on...";
+    songName.textContent = "Share your video with the world!!!";
   };
 });
 
