@@ -40,9 +40,8 @@ const constraints = {
   },
   video: {
     aspectRatio: 9/16,
-    height: {
-      min: 720
-    },
+    width: { min: 480 },
+    height: { min: 640},
     facingMode: 'user'
   }
 };
