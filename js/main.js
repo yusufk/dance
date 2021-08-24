@@ -82,7 +82,7 @@ function playRecording() {
   videoSidebar.hidden = false;
   gumVideo.hidden = true;
   recordedVideo.hidden = false;
-  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
+  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const superBuffer = new Blob(recordedBlobs, {type: mimeType});
   recordedVideo.src = null;
   recordedVideo.srcObject = null;
@@ -174,8 +174,8 @@ function stopRecording() {
 }
 
 function downloadRecording() {
-    const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
-    const extension = mimeType.split('/')[1];
+    const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
+    const extension = mimeType.split(';', 1)[0].split('/')[1];
     const blob = new Blob(recordedBlobs, {type: mimeType});
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -191,8 +191,8 @@ function downloadRecording() {
   };
 
 function shareRecording() {
-  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
-  const extension = mimeType.split('/')[1];
+  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
+  const extension = mimeType.split(';', 1)[0].split('/')[1];
   const blob = new Blob(recordedBlobs, {type: mimeType});
   const file = new File([blob], 'ayoba.'+ extension, { type: mimeType });
   window.navigator.share({title: 'ayoba life', text: 'Checkout my ayoba video!',files: [file] });
