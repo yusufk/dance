@@ -187,8 +187,10 @@ function downloadRecording() {
   };
 
 function shareRecording() {
-  const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
-  const file = new File([blob], 'ayoba.mp4', { type: 'video/mp4' });
+  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
+  const extension = mimeType.split('/')[1];
+  const blob = new Blob(recordedBlobs, {type: mimeType});
+  const file = new File([blob], 'ayoba.'+ extension, { type: mimeType });
   window.navigator.share({title: 'ayoba life', text: 'Checkout my ayoba video!',files: [file] });
 }
 
