@@ -93,9 +93,9 @@ musicPreferenceButton.addEventListener('click', () => {
 });
 
 const shareButton = document.querySelector('#share__button');
-shareButton.addEventListener('click', aysnc () => {
+shareButton.addEventListener('click', () => {
   try {
-    await shareRecording();
+    shareRecording();
     console.log("Shared succesfully");
   } catch(err) {
     console.log('Error: ' + err);
