@@ -39,7 +39,7 @@ const constraints = {
     echoCancellation: {exact: hasEchoCancellation}
   },
   video: {
-    width: window.innerWidth, height: window.innerHeight
+    aspectRatio: 9/16
   }
 };
 
