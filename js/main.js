@@ -39,7 +39,7 @@ const constraints = {
     echoCancellation: {exact: hasEchoCancellation}
   },
   video: {
-    width: 1280, height: 720
+    width: window.innerWidth, height: window.innerHeight
   }
 };
 
@@ -134,7 +134,8 @@ function getSupportedMimeTypes() {
 
 function startRecording() {
   recordedBlobs = [];
-  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
+  const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
+  //const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
   const options = {mimeType};
   audio.src = musicPreference.options[musicPreference.selectedIndex].value;
   audioSource.connect(audioStreamDestination);
@@ -169,12 +170,14 @@ function stopRecording() {
 }
 
 function downloadRecording() {
-    const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
+    const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value.split(';', 1)[0];
+    const extension = mimeType.split('/')[1];
+    const blob = new Blob(recordedBlobs, {type: mimeType});
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = 'ayoba.mp4';
+    a.download = 'ayoba.'+extension;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
