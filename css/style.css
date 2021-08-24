@@ -29,7 +29,7 @@
     background-color: black;
     scroll-snap-type: y mandatory;
     border-radius: 20px;
-    height: 100vh;
+    height: 90vh;
     width: 100%;
     overflow-x: hidden;
   }

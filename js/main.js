@@ -40,7 +40,7 @@ const constraints = {
   },
   video: {
     width: screen.width,
-    height: screen.width,
+    height: screen.height,
     facingMode: 'user'
   }
 };
